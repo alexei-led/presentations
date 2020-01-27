@@ -1,6 +1,6 @@
 # Recorded with the doitlive recorder
 #doitlive shell: /bin/bash
-#doitlive prompt: default
+#doitlive prompt: {user.green.bold}:{dir.green}$
 #doitlive commentecho: true
 
 go mod init main
