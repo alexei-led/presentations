@@ -1,0 +1,31 @@
+package anonymizer
+
+import (
+	"log"
+	"regexp"
+	"strings"
+)
+
+var re *regexp.Regexp
+
+func init() {
+	var err error
+	re, err = regexp.Compile("(\\w[-._\\w]*\\w@\\w[-._\\w]*\\w\\.\\w{2,3})")
+	if err != nil {
+		log.Fatalf("error: %s", err)
+	}
+}
+
+// Anonymizer func
+func Anonymizer(s string) string {
+
+	matches := re.FindAllString(s, -1)
+	for _, matchStr := range matches {
+		matchStr = strings.Trim(matchStr, " ")
+		if matchStr != "" {
+			s = strings.Replace(s, matchStr, "****", -1)
+		}
+	}
+
+	return s
+}

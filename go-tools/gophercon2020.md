@@ -18,6 +18,36 @@ Alexei Ledenev
 github.com/alexei-led
 
 ---
+<div data-marpit-fragment>
+
+![height:350](https://www.jetbrains.com/go/img/screenshots/go_overview.png) ![height:350](https://www.i-programmer.info/images/stories/News/2019/July/A/vscode2.jpg)
+
+</div>
+
+![bg contain](https://i.imgur.com/a7NgLYi.png)
+
+<!-- 
+Go November 10. 2019; 10 years old
+Go SDK comes with lot of useful tools and IDEs are using these tools
+ -->
+
+---
+
+## Why Terminal
+
+* Power
+* Automation
+* Productivity
+* Beauty of CLI
+
+<!--
+Power - more control over commands, no everything is exposed in GUI
+Automation - CLI is essential for effective automation
+PRoductivity - once get familiar, some tasks easier to run in terminal
+Beauty - personal feeling
+-->
+
+---
 
 ## Hello
 
@@ -48,6 +78,7 @@ goimports
 <!--
 goimports -d main.go | colordiff
 goimports -w main.go
+configure IDE to use goimports for auto-format on save
 -->
 
 ---
@@ -59,34 +90,87 @@ goimports -w main.go
 go play
 ```
 
+<!-- run, open browser and share (default) -->
+
 ---
 
 ## Refactoring
 
-```sh
-# rewrite string
-gofmt -r
+<div data-marpit-fragment>
 
+```sh
+# rewrite code
+gofmt -r ...
+# rewrite rule: pattern -> replacement
+# [pattern] & [replacement] must be valid go expressions
+gofmt -r 'bytes.Compare(a, b) == 0 -> bytes.Equal(a, b)'
+gofmt -r 'bytes.Compare(a, b) != 0 -> !bytes.Equal(a, b)'
+```
+
+</div>
+
+<div data-marpit-fragment>
+
+```sh
 # go rename tool
 gorename
 
-# go refactoring tool: rename, extract, var
+# go refactoring tool: rename, extract, var: used by IDEs
 godoctor
 ```
+
+</div>
 
 ---
 
 ## Explore
 
+<div data-marpit-fragment>
+
 ```sh
 # show source code for symbol
-go doc -src
+go doc -src strings.Replace
 
-# run go documentation server (offline)
+# view documentation for the strings package
+go doc strings
+# view full documentation for the strings package
+go doc -all strings | less
+# view documentation for the strings.Replace function
+go doc strings.Replace
+```
+
+</div>
+
+<div data-marpit-fragment>
+
+**offline documentation**
+
+```sh
+# run go documentation server (offline) :6060
 godoc
+```
+
+</div>
+
+---
+
+## Explore (Enhance)
+
+```sh
+# color: show source code for symbol
+godocc github.com/urfave/cli.GenericFlag.Apply
+
+# color: view documentation for the strings.Replace function
+godocc -src github.com/urfave/cli.GenericFlag.Apply
+
+# visualize go source code dependency tree
+depth github.com/prometheus/client_golang/prometheus
+
+# print import chains in which the 'regexp' package is found
+depth -explain regexp github.com/prometheus/client_golang/prometheus
 
 # explore visual call graph
-go-callvis
+go-callvis -nostd gtoken
 ```
 
 ---
@@ -95,21 +179,28 @@ go-callvis
 
 ```sh
 # introspect Go packages and their interdependencies
-go list
+go list  -f '{{ join .Imports "\n" }}'
+# list all modules
+go list -m all
+# list outdated direct modules
+go list -f '{{if and (not .Indirect) .Update}}{{.}}{{end}}' -u -m all
 
 # add missing and remove unused modules
 go mod tidy
-
 # explain why packages or modules are needed
 go mod why
 
 # scan for embedded licenses
-golicense
+golicense -verbose -license .golicense.json [app.binary]
 ```
 
 <!--
+A module is a collection of related Go packages that are versioned together as a single unit.
 https://dave.cheney.net/2014/09/14/go-list-your-swiss-army-knife
 go list -u -m -json all | go-mod-outdated -direct
+
+golicense show config file
+golicense gtoken | gtoken-webhook
 -->
 
 ---
@@ -117,16 +208,25 @@ go list -u -m -json all | go-mod-outdated -direct
 ## Build
 
 ```sh
-# core Go build command
-go build
-
 # list supported architectures and OS for Go builder
 go tool dist list
+
+# build linux arm64 executable
+GOOS=linux GOARCH=amd64 go build -o=.bin/$GOOS_$GOARCH/app .
+
+# inspect linker flags
+go tool link -help
+
+# embed version info into build
+go build -ldflags "-X main.Version=${VERSION} \
+                   -X main.GitCommit=${GIT_SHA} \
+                   -X main.GitBranch=${GIT_BRANCH} \
+                   -X main.BuildTime=${DATE}" .
 ```
 
 <!--
-GOOS
-CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags '-s -w -extldflags "-static"' -o app *.go
+GOOS=linux GOARCH=arm64 go build -o=.bin/app .
+file .bin/app
 --->
 
 ---
@@ -142,7 +242,7 @@ CGO_ENABLED=0
 # -s: omit the symbol table and debug information
 # -w: omit the DWARF symbol table
 # -extldflags: flags to ext4ernal gcc linker
--ldflags '-s -w -extldflags "-static"'
+go build -ldflags='-s -w -extldflags "-static"' -o=.bin/app
 
 # portable packer for binaries: 40-60% final size reduce
 - upx --best [--brute]
@@ -157,16 +257,18 @@ https://blog.hashbangbash.com/2014/04/linking-golang-statically/
 
 ## Build Tags
 
-<!--
-https://mickey.dev/posts/go-build-tags-testing/ 
--->
+<div data-marpit-fragment>
+build (linux AND arm64) OR (darwin AND (NOT cgo))
 
 ```go
-// +build linux darwin
-// +build amd64
+// +build linux,amd86 darwin,!cgo
 package mypackage
 ...
 ```
+</div>
+
+<div data-marpit-fragment>
+build/test only if `--tags=integration` is provided
 
 ```go
 // +build integration
@@ -174,71 +276,200 @@ package mypackage
 import "testing"
 ...
 ```
+</div>
 
-```sh
-go test --tags=integration
-```
+<!--
+https://mickey.dev/posts/go-build-tags-testing/ 
+-->
 
 ---
 
 ## Test
 
-- `go test`
-- `go test -cover`
-- `go test -race`
-- `richgo test`
+```sh
+# run tests
+go test
+
+# run tests with code coverage
+go test -cover
+
+# test with race condition
+go test -race
+
+# enrich test result output
+richgo test
+```
 
 ---
 
 ## Tests/Mock Generation
 
-`gotests`
-`mockery|gomock`
+```sh
+# generate table driven tests
+gotests
+
+# generate mock for Go interfaces
+mockery
+```
+
+<!--
+https://tutorialedge.net/golang/improving-your-tests-with-testify-go/
+-->
 
 ---
 
 ## Benchmark
 
-- `go test -run=^$ -bench=. ./... `
-- `benchcmp`
+```sh
+# run benchmark only, skipping tests
+go test -run=^$ -bench=. ./...
+
+# compare benchmark results
+benchcmp old.txt new.txt
+```
 
 ---
 
 ## Static Analysis
 
-- `go vet`
-- `golangci-lint`
-- `goreporter`
+<div data-marpit-fragment>
+
+```sh
+# inspect vet tool
+go tool vet help
+go vet
+
+# report unchecked errors
+errcheck
+
+# ... other linter tools
+```
+
+</div>
+
+<div data-marpit-fragment>
+
+**golangci-lint:** _linters aggregator_
+
+```sh
+# run all linters
+golangci-lint run --enable-all
+```
+
+</div>
 
 ---
 
 ## Profile
 
 ```sh
-go test -run=^$ -bench=^BenchmarkFoo$ -cpuprofile=/tmp/cpuprofile.out .
-go test -run=^$ -bench=^BenchmarkFoo$ -memprofile=/tmp/memprofile.out .
-go test -run=^$ -bench=^BenchmarkFoo$ -blockprofile=/tmp/blockprofile.out .
-go test -run=^$ -bench=^BenchmarkFoo$ -mutexprofile=/tmp/mutexprofile.out .
+# collect profile results: cpu, memory, block, mutex
+go test -bench="^Benchmark(.*)$" -cpuprofile=/tmp/cpuprofile.out .
 
-go tool pprof -http=:5000 /tmp/cpuprofile.out
+# inspect profile results
+go tool pprof -http=:8080 /tmp/cpuprofile.out
 ```
 
 ---
 
-## Release
+## Build Automation
 
-- `docker`
-- `make`
-- `goreleaser`
+### Makefile
+
+* Build != Compile
+* Same tool for each phase
+* Language and tool agnostic
+* Multi-platform
+* Environment and compile-time variables
+* Reproducible builds
+
+---
+
+## Makefile (example)
+
+```makefile
+    GOCMD=go
+    GOBUILD=$(GOCMD) build
+    GOCLEAN=$(GOCMD) clean
+    GOTEST=$(GOCMD) test
+    BINARY_NAME=app
+
+    all: test build
+    build:
+            $(GOBUILD) -o $(BINARY_NAME) -v
+    test:
+            $(GOTEST) -v ./...
+    clean:
+            $(GOCLEAN)
+            rm -f $(BINARY_NAME) $(BINARY_LINUX)
+```
+
+---
+
+## Build with Docker
+
+```dockerfile
+# test and build
+FROM golang:1.13 AS builder
+RUN mkdir -p /go/src/app
+WORKDIR /go/src/app
+COPY go.* .
+RUN --mount=type=cache,target=/go/mod go mod download
+COPY . .
+RUN make
+
+#--- release
+FROM scratch
+COPY --from=build /go/src/app/.bin/app /app
+ENTRYPOINT ["/app"]
+```
+
+---
+<style scoped>
+h2 {
+  color: DimGray;
+}
+</style>
+
+## GoReleaser
+
+![bg contain opacity:.6](https://i.imgur.com/316a9UT.png)
+
+<div data-marpit-fragment>
+
+```yaml
+repo: goreleaser/releaser
+binary_name: app
+changelog:
+  sort: asc
+brew:
+  repo: app/homebrew-formulae
+builds:
+  goos:
+  - linux
+  - darwin
+  - windows
+  goarch:
+  - amd64
+```
+
+</div>
+
+<!--
+https://github.com/doitintl/secrets-init 
+-->
 
 ---
 
 ## Badges
 
-- ![](https://camo.githubusercontent.com/072857af59b99a995d5e66cdac76fc224825c169/68747470733a2f2f676f7265706f7274636172642e636f6d2f62616467652f6769746875622e636f6d2f616c657865692d6c65642f70756d6261) `goreportcard`
-- ![](https://s3.amazonaws.com/assets.coveralls.io/badges/coveralls_90.svg) `coveralls.io`
-- ![](https://camo.githubusercontent.com/b216815be8df59ecf97f5926a579af746d79f613/68747470733a2f2f676f646f632e6f72672f6769746875622e636f6d2f676f6875676f696f2f6875676f3f7374617475732e737667) `godoc`
-- ![](https://github.com/alexei-led/pumba/workflows/Pumba%20CI/badge.svg) `github actions`
+* ![height:45](https://camo.githubusercontent.com/072857af59b99a995d5e66cdac76fc224825c169/68747470733a2f2f676f7265706f7274636172642e636f6d2f62616467652f6769746875622e636f6d2f616c657865692d6c65642f70756d6261) `goreportcard`
+
+* ![height:45](https://s3.amazonaws.com/assets.coveralls.io/badges/coveralls_90.svg) `coveralls.io`
+
+* ![height:45](https://camo.githubusercontent.com/b216815be8df59ecf97f5926a579af746d79f613/68747470733a2f2f676f646f632e6f72672f6769746875622e636f6d2f676f6875676f696f2f6875676f3f7374617475732e737667) `godoc`
+
+* ![height:45](https://github.com/alexei-led/pumba/workflows/Pumba%20CI/badge.svg) `github actions`
 
 ---
 
