@@ -476,3 +476,7 @@ https://github.com/doitintl/secrets-init
 ## Thank you
 
 ![invert:100% height:50](https://cdn1.iconfinder.com/data/icons/social-media-rounded-corners/512/Rounded_Medium3_svg-64.png) ![invert height:50](https://pngimage.net/wp-content/uploads/2018/06/twitter-icon-black-png-1.png) @alexeiled
+
+<br/>
+
+[github.com/alexei-led/presentations](https://github.com/alexei-led/presentations)
