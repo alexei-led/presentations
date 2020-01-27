@@ -142,15 +142,14 @@ code/03-refactor
 <div data-marpit-fragment>
 
 ```sh
-# show source code for symbol
-go doc -src strings.Replace
-
 # view documentation for the strings package
 go doc strings
 # view full documentation for the strings package
 go doc -all strings | less
 # view documentation for the strings.Replace function
 go doc strings.Replace
+# show source code for symbol
+go doc -src strings.Replace
 ```
 
 </div>
