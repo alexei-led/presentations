@@ -1,4 +1,4 @@
-module main
+module sms
 
 go 1.13
 

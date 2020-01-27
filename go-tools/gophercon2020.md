@@ -27,8 +27,10 @@ github.com/alexei-led
 ![bg contain](https://i.imgur.com/a7NgLYi.png)
 
 <!-- 
-Go November 10. 2019; 10 years old
-Go SDK comes with lot of useful tools and IDEs are using these tools
+Go November 10. 2019; 10 years old; me and Go almost 5 years
+Go SDK comes with lot of useful tools out-of-the box
+Over these years Go community created additional helpful tools
+All IDEs are using these tools under the hood
  -->
 
 ---
@@ -45,6 +47,8 @@ Power - more control over commands, no everything is exposed in GUI
 Automation - CLI is essential for effective automation
 PRoductivity - once get familiar, some tasks easier to run in terminal
 Beauty - personal feeling
+
+2:00
 -->
 
 ---
@@ -52,6 +56,9 @@ Beauty - personal feeling
 ## Hello
 
 ```sh
+# list Go SDK tools
+go help
+
 # inspect Go environment
 go env
 
@@ -60,7 +67,7 @@ go run
 ```
 
 <!--
-go env -json | jq -r '.GORPOXY'
+code/01-hello
 -->
 
 ---
@@ -68,17 +75,18 @@ go env -json | jq -r '.GORPOXY'
 ## Edit
 
 ```sh
-# code format
-gofmt
+# code format: simplify and write result to (source) file
+gofmt -s -w
 
-# 'gofmt' plus fix imports
-goimports
+# 'gofmt' plus fix imports and write result to (source) file
+goimports -w
+
+# ist files whose formatting differs from goimport's
+goimports -l
 ```
 
 <!--
-goimports -d main.go | colordiff
-goimports -w main.go
-configure IDE to use goimports for auto-format on save
+code/01-hello
 -->
 
 ---
@@ -90,7 +98,9 @@ configure IDE to use goimports for auto-format on save
 go play
 ```
 
-<!-- run, open browser and share (default) -->
+<!--
+code/02-share
+-->
 
 ---
 
@@ -120,6 +130,10 @@ godoctor
 ```
 
 </div>
+
+<!--
+code/03-refactor
+-->
 
 ---
 

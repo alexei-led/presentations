@@ -2,7 +2,7 @@ package main
 
 import (
 	"errors"
-	"fmt
+	"fmt"
 )
 
 // MessageService handles notifying clients they have
@@ -34,9 +34,9 @@ func (sms SMSService) SendChargeNotification(value int) error {
 // In a real system we would maybe mock this as well
 // but here, I want to make some money every time I run my tests
 func (a MyService) ChargeCustomer(value int) error {
-	if err := a.messageService.SendChargeNotification(value), err != nil {
-        return err
-    }
+	if err := a.messageService.SendChargeNotification(value); err != nil {
+		return err
+	}
 	fmt.Printf("Charging Customer For the value of %d\n", value)
 	return nil
 }

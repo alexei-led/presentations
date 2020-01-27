@@ -2,23 +2,37 @@
 #doitlive shell: /bin/bash
 #doitlive prompt: {user.green.bold}:{dir.green}$
 #doitlive commentecho: true
+#doitlive speed: 2
 
+# inspect Go SDK
+go help
+clear
+
+#explore Go environment
+go env
+
+go env GOPROXY GOROOT GOCACHE
+
+go env --json | jq .
+
+go env -json | jq -r '.GOPROXY'
+clear
+
+# start writing Go code
 go mod init main
 
-#
-# write simple go app
 ccat file.txt | tee main.go
 
-#
-# preview format and fix imports
+goimports -l .
+
 goimports -d main.go | colordiff
 
-#
-# format code and fix imports
 goimports -w main.go
 
 ccat main.go
+clear
 
+# run Go code
 go run .
 
 ./clean.sh

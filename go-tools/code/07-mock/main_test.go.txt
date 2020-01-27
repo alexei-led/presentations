@@ -1,6 +1,9 @@
 package main
 
-import "testing"
+import (
+	"errors"
+	"testing"
+)
 
 func TestSMSService_SendChargeNotification(t *testing.T) {
 	type args struct {
@@ -8,17 +11,30 @@ func TestSMSService_SendChargeNotification(t *testing.T) {
 	}
 	tests := []struct {
 		name    string
-		sms     SMSService
+		sms     MessageService
 		args    args
 		wantErr bool
 	}{
-		// TODO: Add test cases.
+		{
+			name: "send 100",
+			sms:  new(SMSService),
+			args: args{value: 100},
+		},
+		{
+			name:    "send negative",
+			sms:     new(SMSService),
+			args:    args{value: -100},
+			wantErr: true,
+		},
+		{
+			name: "send 0",
+			sms:  new(SMSService),
+			args: args{value: 0},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			sms := new(MockMessageService)
-			sms.On("SendChargeNotification", 100).Return(nil)
-			if err := sms.SendChargeNotification(tt.args.value); (err != nil) != tt.wantErr {
+			if err := tt.sms.SendChargeNotification(tt.args.value); (err != nil) != tt.wantErr {
 				t.Errorf("SMSService.SendChargeNotification() error = %v, wantErr %v", err, tt.wantErr)
 			}
 
@@ -27,28 +43,36 @@ func TestSMSService_SendChargeNotification(t *testing.T) {
 }
 
 func TestMyService_ChargeCustomer(t *testing.T) {
-	type fields struct {
-		messageService MessageService
-	}
 	type args struct {
 		value int
+		err   error
 	}
 	tests := []struct {
 		name    string
-		fields  fields
 		args    args
 		wantErr bool
 	}{
-		// TODO: Add test cases.
+		{
+			name: "charge customer 100",
+			args: args{value: 100},
+		},
+		{
+			name: "charge customer -100",
+			args: args{value: 100, err: errors.New("error")},
+			wantErr: true,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			mockSms := new(MockMessageService)
 			a := MyService{
-				messageService: tt.fields.messageService,
+				messageService: mockSms,
 			}
+			mockSms.On("SendChargeNotification", tt.args.value).Return(tt.args.err)
 			if err := a.ChargeCustomer(tt.args.value); (err != nil) != tt.wantErr {
 				t.Errorf("MyService.ChargeCustomer() error = %v, wantErr %v", err, tt.wantErr)
 			}
+			mockSms.AssertExpectations(t)
 		})
 	}
 }
