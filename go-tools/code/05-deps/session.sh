@@ -32,5 +32,6 @@ clear
 
 # scan for embedded licenses
 golicense -verbose -license ../../.golicense.json .bin/gtoken
+ccat ../../.golicense.json
 
 cd -

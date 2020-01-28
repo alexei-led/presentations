@@ -232,9 +232,9 @@ go tool link -help
 
 # embed version info into build
 go build -ldflags "-X main.Version=${VERSION} \
-                   -X main.GitCommit=${GIT_SHA} \
-                   -X main.GitBranch=${GIT_BRANCH} \
-                   -X main.BuildTime=${DATE}" .
+                   -X main.GitCommit=${COMMIT} \
+                   -X main.GitBranch=${BRANCH} \
+                   -X main.BuildDate=${DATE}" .
 ```
 
 <!--
@@ -264,6 +264,7 @@ go build -ldflags='-s -w -extldflags "-static"' -o=.bin/app
 <!-- 
 https://www.lucasepe.it/posts/golang-static-builds/
 https://blog.hashbangbash.com/2014/04/linking-golang-statically/
+consider demo on github-webhook
 -->
 
 ---
@@ -275,9 +276,10 @@ build (linux AND arm64) OR (darwin AND (NOT cgo))
 
 ```go
 // +build linux,amd86 darwin,!cgo
-package mypackage
+package app
 ...
 ```
+
 </div>
 
 <div data-marpit-fragment>
@@ -285,10 +287,11 @@ build/test only if `--tags=integration` is provided
 
 ```go
 // +build integration
-package mypackage
+package app
 import "testing"
 ...
 ```
+
 </div>
 
 <!--
