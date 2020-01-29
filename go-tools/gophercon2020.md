@@ -184,7 +184,7 @@ depth github.com/prometheus/client_golang/prometheus
 depth -explain regexp github.com/prometheus/client_golang/prometheus
 
 # explore visual call graph
-go-callvis -nostd gtoken
+go-callvis --nostd
 ```
 
 ---
