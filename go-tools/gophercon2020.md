@@ -255,7 +255,7 @@ CGO_ENABLED=0
 go build -ldflags='-s -w -extldflags "-static"' -o=.bin/app
 
 # portable packer for binaries: 40-60% final size reduce
-- upx --best [--brute]
+upx --best [--brute]
 ```
 
 <!-- 

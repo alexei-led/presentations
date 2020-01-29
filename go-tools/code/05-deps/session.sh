@@ -8,11 +8,13 @@ tree
 head -30 main.go | ccat
 
 # introspect Go packages and their interdependencies
-go list  -f '{{ join .Imports "\n" }}'
+go list all
+go list -m all
+go help list
 clear
 
-# list all modules
-go list -m all
+# play with go list
+go list  -f '{{ join .Imports "\n" }}'
 clear
 
 # list outdated direct modules

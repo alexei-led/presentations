@@ -3,6 +3,9 @@
 #doitlive prompt: {user.green.bold}:{dir.green}$
 #doitlive commentecho: true
 
+tree
+ccat main.go
+
 # generate table driven tests
 gotests -all -w main.go
 ccat main_test.go
@@ -14,7 +17,8 @@ ccat mock_MessageService.go
 clear
 
 # use mock in test
-cat main_test.go.txt | tee main_test.go
+cat main_test.go.txt > main_test.go
+ccat main_test.go
 go test -v .
 clear
 

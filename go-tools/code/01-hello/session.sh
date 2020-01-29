@@ -6,6 +6,7 @@
 
 # inspect Go SDK
 go help
+go help cache
 clear
 
 #explore Go environment
@@ -22,7 +23,9 @@ clear
 go mod init main
 
 ccat file.txt | tee main.go
+clear
 
+# list not properly formated Go files
 goimports -l .
 
 goimports -d main.go | colordiff
