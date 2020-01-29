@@ -177,12 +177,6 @@ godocc github.com/urfave/cli.GenericFlag.Apply
 # color: view documentation for the strings.Replace function
 godocc -src github.com/urfave/cli.GenericFlag.Apply
 
-# visualize go source code dependency tree
-depth github.com/prometheus/client_golang/prometheus
-
-# print import chains in which the 'regexp' package is found
-depth -explain regexp github.com/prometheus/client_golang/prometheus
-
 # explore visual call graph
 go-callvis --nostd
 ```
@@ -203,6 +197,8 @@ go list -f '{{if and (not .Indirect) .Update}}{{.}}{{end}}' -u -m all
 go mod tidy
 # explain why packages or modules are needed
 go mod why
+# or use depth for different visualization
+depth -explain regexp gtoken
 
 # scan for embedded licenses
 golicense -verbose -license .golicense.json [app.binary]

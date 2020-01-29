@@ -28,6 +28,7 @@ git reset --hard HEAD
 
 # explain why packages or modules are needed
 go mod why regexp
+depth -explain regexp gtoken
 clear
 
 # scan for embedded licenses

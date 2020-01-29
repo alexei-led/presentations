@@ -28,12 +28,6 @@ godocc -src github.com/urfave/cli.GenericFlag.Apply
 godocc -src github.com/urfave/cli.GenericFlag.ApplyWithError
 clear
 
-# visualize go source code dependency tree
-depth github.com/prometheus/client_golang/prometheus
-
-# print import chains in which the 'regexp' package is found
-depth -explain regexp github.com/prometheus/client_golang/prometheus
-
 # explore visual call graph
 go-callvis --nostd gtoken
 cd -
