@@ -61,9 +61,7 @@ go help
 
 # inspect Go environment
 go env
-
-# run Go code
-go run
+go env --json | jq .
 ```
 
 <!--
@@ -78,11 +76,14 @@ code/01-hello
 # code format: simplify and write result to (source) file
 gofmt -s -w
 
+# list files whose formatting differs from goimport's
+goimports -l
+
 # 'gofmt' plus fix imports and write result to (source) file
 goimports -w
 
-# ist files whose formatting differs from goimport's
-goimports -l
+# run Go code
+go run
 ```
 
 <!--
@@ -95,7 +96,7 @@ code/01-hello
 
 ```sh
 # share code on The Go Playground
-go play
+goplay
 ```
 
 <!--
