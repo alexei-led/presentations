@@ -2,7 +2,7 @@
 #doitlive prompt: {user.green.bold}:{dir.green}$
 #doitlive commentecho: true
 #doitlive speed: 2
-cd /Users/alexei/Workspace/go/goapp
+cd /Users/alexei/Workspace/goapp
 
 # list supported architectures and OS for Go builder
 go tool dist list
