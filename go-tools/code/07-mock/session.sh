@@ -4,21 +4,21 @@
 #doitlive commentecho: true
 
 tree
-ccat main.go
+bat main.go
 
 # generate table driven tests
 gotests -all -w main.go
-ccat main_test.go
+bat main_test.go
 clear
 
 # generate mock
 mockery -all -inpkg
-ccat mock_MessageService.go
+bat mock_MessageService.go
 clear
 
 # use mock in test
 cat main_test.go.txt > main_test.go
-ccat main_test.go
+bat main_test.go
 go test -v .
 clear
 

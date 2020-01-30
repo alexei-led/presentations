@@ -2,10 +2,10 @@
 #doitlive shell: /bin/zsh
 #doitlive prompt: {user.green.bold}:{dir.green}$
 
-ccat mypkg.go
+bat mypkg.go
 clear
 
-ccat mypkg_test.go
+bat mypkg_test.go
 clear
 
 go test -bench=BeginsWithRegex -cpuprofile=cpuprofile_regex.out | tee regex.txt

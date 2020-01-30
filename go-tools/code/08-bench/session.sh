@@ -3,12 +3,12 @@
 #doitlive prompt: {user.green.bold}:{dir.green}$
 #doitlive commentecho: true
 
-ccat anonymizer_test.go
+bat anonymizer_test.go
 
 
 #
 # fisrt version of anonymyzer
-ccat anonymizer.go.v1 | tee anonymizer.go
+cat anonymizer.go.v1 | tee anonymizer.go | bat -l go
 
 #
 # run benchmark and keep results in v1.txt
@@ -16,7 +16,7 @@ go test -bench=. | tee v1.txt
 
 #
 # imporve anonymizer function
-ccat anonymizer.go.v2 | tee anonymizer.go
+cat anonymizer.go.v2 | tee anonymizer.go | bat -l go
 
 #
 # run benchmark and keep results in v2.txt

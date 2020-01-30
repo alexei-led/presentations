@@ -5,7 +5,7 @@
 
 cd /Users/alexei/Workspace/gcp/gke/gtoken/cmd/gtoken
 tree
-head -30 main.go | ccat
+head -30 main.go | bat -l go
 
 # introspect Go packages and their interdependencies
 go list all
@@ -35,6 +35,6 @@ clear
 
 # scan for embedded licenses
 golicense -verbose -license ../../.golicense.json .bin/gtoken
-ccat ../../.golicense.json
+bat ../../.golicense.json
 
 cd -

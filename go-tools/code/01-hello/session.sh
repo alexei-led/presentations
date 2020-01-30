@@ -22,7 +22,7 @@ clear
 # start writing Go code
 go mod init main
 
-ccat file.txt | tee main.go
+cat file.txt | tee main.go | bat -l go
 clear
 
 # list not properly formated Go files
@@ -32,7 +32,7 @@ goimports -d main.go | colordiff
 
 goimports -w main.go
 
-ccat main.go
+bat main.go
 clear
 
 # run Go code

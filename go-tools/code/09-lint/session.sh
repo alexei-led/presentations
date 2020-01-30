@@ -3,7 +3,7 @@
 #doitlive prompt: {user.green.bold}:{dir.green}$
 #doitlive commentecho: true
 
-ccat main.go
+bat main.go
 
 # should compile without errors
 go build
