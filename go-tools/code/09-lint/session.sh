@@ -1,7 +1,7 @@
-# Recorded with the doitlive recorder
 #doitlive shell: /bin/zsh
 #doitlive prompt: {user.green.bold}:{dir.green}$
 #doitlive commentecho: true
+#doitlive speed: 2
 
 bat main.go
 
@@ -16,6 +16,10 @@ errcheck
 
 # run multiple linters with golangci-lint
 golangci-lint run
+clear
+
+# list available linters
+golangci-lint linters
 clear
 
 # run with all linters enabled

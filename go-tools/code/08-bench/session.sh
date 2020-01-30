@@ -1,10 +1,9 @@
-# Recorded with the doitlive recorder
 #doitlive shell: /bin/zsh
 #doitlive prompt: {user.green.bold}:{dir.green}$
 #doitlive commentecho: true
+#doitlive speed: 2
 
 bat anonymizer_test.go
-
 
 #
 # fisrt version of anonymyzer

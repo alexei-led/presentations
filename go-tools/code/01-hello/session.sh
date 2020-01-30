@@ -5,12 +5,12 @@
 #doitlive speed: 2
 
 # inspect Go SDK
-go help
-go help cache
+go help | bat -l man
+go help cache | bat -l man
 clear
 
 #explore Go environment
-go env
+go env | bat -l ini
 
 go env GOPROXY GOROOT GOCACHE
 

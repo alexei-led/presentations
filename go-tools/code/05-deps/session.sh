@@ -10,7 +10,7 @@ head -30 main.go | bat -l go
 # introspect Go packages and their interdependencies
 go list all
 go list -m all
-go help list
+go help list | bat -l man
 clear
 
 # play with go list

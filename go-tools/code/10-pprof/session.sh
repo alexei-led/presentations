@@ -1,6 +1,6 @@
-# Recorded with the doitlive recorder
 #doitlive shell: /bin/zsh
 #doitlive prompt: {user.green.bold}:{dir.green}$
+#doitlive speed: 2
 
 bat mypkg.go
 clear
