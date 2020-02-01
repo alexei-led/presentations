@@ -1,2 +1,0 @@
-package main
-func main() { fmt.Println("Hello GopherCon Israel") }

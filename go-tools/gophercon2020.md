@@ -13,7 +13,9 @@ paginate: true
 <!-- _footer: ![invert:70%](https://www.gophercon.org.il/images/logo.png) <br> 3 February 2020 -->
 <!-- _paginate: false -->
 
-Alexei Ledenev
+## _Alexei Ledenev_
+
+@doitint
 
 github.com/alexei-led
 
@@ -40,15 +42,13 @@ All IDEs are using these tools under the hood
 * Power
 * Automation
 * Productivity
-* Beauty of CLI
+* Beauty
 
 <!--
 Power - more control over commands, no everything is exposed in GUI
 Automation - CLI is essential for effective automation
 PRoductivity - once get familiar, some tasks easier to run in terminal
 Beauty - personal feeling
-
-2:00
 -->
 
 ---
@@ -70,44 +70,24 @@ code/01-hello
 
 ---
 
-## Edit
+## Edit you code
+
+<div data-marpit-fragment>
 
 ```sh
 # code format: simplify and write result to (source) file
 gofmt -s -w
-
 # list files whose formatting differs from goimport's
-goimports -l
-
+gofmt -l
 # 'gofmt' plus fix imports and write result to (source) file
 goimports -w
-
-# run Go code
-go run
 ```
 
-<!--
-code/01-hello
--->
-
----
-
-## Share
-
-```sh
-# share code on The Go Playground
-goplay
-```
-
-<!--
-code/02-share
--->
-
----
-
-## Refactoring
+</div>
 
 <div data-marpit-fragment>
+
+Mechanical source transformation
 
 ```sh
 # rewrite code
@@ -115,49 +95,30 @@ gofmt -r ...
 # rewrite rule: pattern -> replacement
 # [pattern] & [replacement] must be valid go expressions
 gofmt -r 'bytes.Compare(a, b) == 0 -> bytes.Equal(a, b)'
-gofmt -r 'bytes.Compare(a, b) != 0 -> !bytes.Equal(a, b)'
 ```
 
 </div>
-
-<div data-marpit-fragment>
-
-```sh
-# go rename tool
-gorename
-
-# go refactoring tool: rename, extract, var: used by IDEs
-godoctor
-```
-
-</div>
-
-<!--
-code/03-refactor
--->
 
 ---
 
-## Explore
+## Explore docs and source
 
 <div data-marpit-fragment>
 
 ```sh
-# view documentation for the strings package
-go doc strings
 # view full documentation for the strings package
 go doc -all strings | less
 # view documentation for the strings.Replace function
 go doc strings.Replace
 # show source code for symbol
-go doc -src strings.Replace
+go doc -src strings.Replace | bat -l go
 ```
 
 </div>
 
 <div data-marpit-fragment>
 
-**offline documentation**
+Go offline docs
 
 ```sh
 # run go documentation server (offline) :6060
@@ -168,22 +129,9 @@ godoc
 
 ---
 
-## Explore (Enhance)
-
-```sh
-# color: show source code for symbol
-godocc github.com/urfave/cli.GenericFlag.Apply
-
-# color: view documentation for the strings.Replace function
-godocc -src github.com/urfave/cli.GenericFlag.Apply
-
-# explore visual call graph
-go-callvis --nostd
-```
-
----
-
 ## Dependency
+
+<div data-marpit-fragment>
 
 ```sh
 # introspect Go packages and their interdependencies
@@ -193,16 +141,19 @@ go list -m all
 # list outdated direct modules
 go list -f '{{if and (not .Indirect) .Update}}{{.}}{{end}}' -u -m all
 
-# add missing and remove unused modules
-go mod tidy
-# explain why packages or modules are needed
-go mod why
 # or use depth for different visualization
 depth -explain regexp gtoken
+```
 
+</div>
+
+<div data-marpit-fragment>
+
+```sh
 # scan for embedded licenses
 golicense -verbose -license .golicense.json [app.binary]
 ```
+</div>
 
 <!--
 A module is a collection of related Go packages that are versioned together as a single unit.
@@ -251,11 +202,7 @@ CGO_ENABLED=0
 # Go linker flags
 # -s: omit the symbol table and debug information
 # -w: omit the DWARF symbol table
-# -extldflags: flags to ext4ernal gcc linker
-go build -ldflags='-s -w -extldflags "-static"' -o=.bin/app
-
-# portable packer for binaries: 40-60% final size reduce
-upx --best [--brute]
+go build -ldflags='-s -w' -o=.bin/app
 ```
 
 <!-- 
@@ -269,10 +216,10 @@ consider demo on github-webhook
 ## Build Tags
 
 <div data-marpit-fragment>
-build (linux AND arm64) OR (darwin AND (NOT cgo))
+build (linux AND arm64)
 
 ```go
-// +build linux,amd86 darwin,!cgo
+// +build linux,arm64
 package app
 ...
 ```
@@ -308,9 +255,6 @@ go test -cover
 
 # test with race condition
 go test -race
-
-# enrich test result output
-richgo test
 ```
 
 ---

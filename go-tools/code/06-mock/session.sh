@@ -19,10 +19,7 @@ clear
 # use mock in test
 cat main_test.go.txt > main_test.go
 bat main_test.go
-go test -v .
-clear
 
-# nice test output
 richgo test -v -cover .
 
 ./clean.sh

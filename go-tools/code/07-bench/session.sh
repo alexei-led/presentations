@@ -3,11 +3,11 @@
 #doitlive commentecho: true
 #doitlive speed: 2
 
-bat anonymizer_test.go
-
 #
 # fisrt version of anonymyzer
 cat anonymizer.go.v1 | tee anonymizer.go | bat -l go
+
+bat anonymizer_test.go
 
 #
 # run benchmark and keep results in v1.txt
