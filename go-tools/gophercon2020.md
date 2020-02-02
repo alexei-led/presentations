@@ -331,14 +331,18 @@ go tool pprof -http=:8080 /tmp/cpuprofile.out
 
 ## Build Automation
 
-### Makefile
-
 * Build != Compile
 * Same tool for each phase
 * Language and tool agnostic
 * Multi-platform
 * Environment and compile-time variables
 * Reproducible builds
+
+<div data-marpit-fragment>
+
+### Makefile
+
+</div>
 
 ---
 
