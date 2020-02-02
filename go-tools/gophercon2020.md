@@ -75,10 +75,10 @@ code/01-hello
 <div data-marpit-fragment>
 
 ```sh
+# list files whose formatting differs from gofmt's
+gofmt -l
 # code format: simplify and write result to (source) file
 gofmt -s -w
-# list files whose formatting differs from goimport's
-gofmt -l
 # 'gofmt' plus fix imports and write result to (source) file
 goimports -w
 ```
