@@ -65,6 +65,21 @@ data:
 
 ---
 
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: secret-reader
+  namespace: app
+rules:
+  - apiGroups: ["*"]
+    resources: ["secrets"]
+    resourceNames: ["api-key", "ssh-key"]
+    verbs: ["get"]
+```
+
+---
+
 ## Encrypt Secrets at Rest
 
 **`EncryptionConfiguration`**

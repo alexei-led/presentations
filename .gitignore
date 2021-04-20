@@ -1,4 +1,10 @@
+# generated files
 **/*.pptx
 **/*.pdf
+**/*.html
 
+# IDE
 **/.vscode
+
+# temp
+**/.DS_Store
